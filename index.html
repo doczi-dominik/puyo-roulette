@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="index.css" />
+        <link rel="shortcut icon" href="favicon.png" />
+        <script src="index.js"></script>
+
+        <title>Puyo Puyo Form Roulette</title>
+    </head>
+    <body class="bg-dark">
+        <nav id="navbar" class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <img class="d-inline-block align-top p-2" src="icon.png" width="64" alt="">
+                <h2 class="text-light d-none d-sm-inline-flex align-bottom">Puyo Puyo Chaining Form Roulette</h2>
+            </a>
+        </nav>
+
+        <div class="container p-2">
+            <div id="results" class="row g-2">
+            </div>
+        </div>
+
+        <div class="d-grid p-5">
+            <button class="btn btn-primary" type="button" onclick="showCard()">Ready Go Go!</button>
+        </div>
+
+        <div class="container-fluid p-5">
+            <h4 class="d-inline-block text-light p-2">Players:</h4>
+            
+            <form class="p-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="player" id="player1" value="1">
+                    <label class="form-check-label text-light" for="player1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="player" id="player2" value="2" checked>
+                    <label class="form-check-label text-light" for="player2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="player" id="player3" value="3">
+                    <label class="form-check-label text-light" for="player3">3</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="player" id="player4" value="4">
+                    <label class="form-check-label text-light" for="player4">4</label>
+                </div>
+            </form>
+
+            <br />
+
+            <h4 class="d-inline-block text-light p-2">Chaining Forms:</h4>
+            <form class="d-inline-block">
+                <button type="button" class="btn btn-outline-light" onclick="selectNone()">None</button>
+                <button type="button" class="btn btn-outline-light" onclick="selectAll()">All</button>
+                <button type="button" class="btn btn-outline-light" onclick="selectNoCursed()">No Cursed</button>
+                <button type="button" class="btn btn-outline-light" onclick="selectOnlyCursed()">Only Cursed</button>
+            </form>
+            <div class="container-fluid" id="formsContainer">
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid d-flex bg-dark">
+              <span class="text-light mx-auto">Made with ❤️ by Dominik Dóczi ~ <a class="text-light" href="https://github.com/doczi-dominik/puyo-roulette">GitHub</a></span>
+            </div>
+          </footer>
+    </body>
+</html>

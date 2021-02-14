@@ -1,0 +1,16 @@
+img#icon {
+    max-width: 64px; 
+    max-height: 64px;
+}
+
+img {
+    image-rendering: crisp-edges;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 24px; /* Set the fixed height of the footer here */
+    line-height: 24px; /* Vertically center the text there */
+}
