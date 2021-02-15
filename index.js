@@ -167,8 +167,6 @@ function showCard() {
         return
     }
 
-    let cardSize = 12/players
-
     for (let i = 0; i < players; i++) {
         let pickIndex = Math.floor(Math.random() * pool.length)
         let pick = forms[pool[pickIndex]]
@@ -188,28 +186,6 @@ function showCard() {
         `
 
         placeholder.innerHTML += s
-    }
-}
-
-function toggleTheme() {
-    /*
-    $([".light [class*='-light']", ".dark [class*='-dark']"]).each((i, e) => {
-        $(e).toggleClass("bg-light bg-dark")
-        $(e).toggleClass("text-light text-dark")
-        $(e).toggleClass("navbar-light navbar-dark")
-    })
-
-    document.querySelectorAll("[class*='-light'], [class*='-dark']").forEach((e) => {
-        e.classList.replace
-    })
-    */
-
-    let modeSwitch = document.getElementById("modeSwitch")
-
-    if (modeSwitch.innerHTML == "Light Theme") {
-        modeSwitch.innerHTML = "Dark Theme"
-    } else {
-        modeSwitch.innerHTML = "Light Theme"
     }
 }
 
