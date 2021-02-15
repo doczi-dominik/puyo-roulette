@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+        <script src="https://gitcdn.link/repo/skeeto/rng-js/master/rng.js"></script>
 
         <link rel="stylesheet" href="index.css" />
         <link rel="shortcut icon" href="favicon.png" />
+
         <script src="index.js"></script>
 
         <title>Puyo Puyo Form Roulette</title>
@@ -20,6 +21,7 @@
                 <img class="d-inline-block align-top p-2" src="icon.png" width="64" alt="">
                 <h2 class="text-light d-none d-sm-inline-flex align-bottom">Puyo Puyo Chaining Form Roulette</h2>
             </a>
+            <span class="navbar-brand d-none d-lg-inline">Made with ❤️ by Dominik Dóczi ~ <a class="text-light" href="https://github.com/doczi-dominik/puyo-roulette">GitHub</a></span>
         </nav>
 
         <div class="container p-2">
@@ -27,36 +29,42 @@
             </div>
         </div>
 
-        <div class="d-grid p-5">
+        <div class="d-grid p-3">
             <button class="btn btn-primary" type="button" onclick="showCard()">Ready Go Go!</button>
         </div>
 
-        <div class="container-fluid p-5">
-            <h4 class="d-inline-block text-light p-2">Players:</h4>
+        <div class="container-fluid ">
+            <h4 class="d-inline-block text-light p-2">Sync URL</h4>
+
+            <input class="form-control bg-dark text-light" type="text" id="syncURLResults" readonly></input>
+
+            <br />
+
+            <h4 class="text-light p-2">Players</h4>
             
             <form class="p-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="player" id="player1" value="1">
-                    <label class="form-check-label text-light" for="player1">1</label>
+                    <input class="form-check-input" type="radio" name="player" id="1p" value="1" onchange="players=1;randomizeAndGenerateSyncURL()">
+                    <label class="form-check-label text-light" for="1p">1</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="player" id="player2" value="2" checked>
-                    <label class="form-check-label text-light" for="player2">2</label>
+                    <input class="form-check-input" type="radio" name="player" id="2p" value="2" onchange="players=2;randomizeAndGenerateSyncURL()" checked>
+                    <label class="form-check-label text-light" for="2p">2</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="player" id="player3" value="3">
-                    <label class="form-check-label text-light" for="player3">3</label>
+                    <input class="form-check-input" type="radio" name="player" id="3p" value="3" onchange="players=3;randomizeAndGenerateSyncURL()">
+                    <label class="form-check-label text-light" for="3p">3</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="player" id="player4" value="4">
-                    <label class="form-check-label text-light" for="player4">4</label>
+                    <input class="form-check-input" type="radio" name="player" id="4p" value="4" onchange="players=4;randomizeAndGenerateSyncURL()">
+                    <label class="form-check-label text-light" for="4p">4</label>
                 </div>
             </form>
 
             <br />
 
-            <h4 class="d-inline-block text-light p-2">Chaining Forms:</h4>
+            <h4 class="d-inline-block text-light p-2">Chaining Forms</h4>
             <form class="d-inline-block">
                 <button type="button" class="btn btn-outline-light" onclick="selectNone()">None</button>
                 <button type="button" class="btn btn-outline-light" onclick="selectAll()">All</button>
@@ -66,11 +74,5 @@
             <div class="container-fluid" id="formsContainer">
             </div>
         </div>
-
-        <footer class="footer">
-            <div class="container-fluid d-flex bg-dark">
-              <span class="text-light mx-auto">Made with ❤️ by Dominik Dóczi ~ <a class="text-light" href="https://github.com/doczi-dominik/puyo-roulette">GitHub</a></span>
-            </div>
-          </footer>
     </body>
 </html>

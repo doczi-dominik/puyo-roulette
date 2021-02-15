@@ -1,3 +1,4 @@
+// Chaining Forms
 const forms = [
     {
         "name": "3-1 Stairs",
@@ -107,96 +108,140 @@ const forms = [
     
 ]
 
+// Image Preloading
 const preloadedImages = []
 
 function preloadImage(url) {
     preloadedImages.push((new Image()).src = url)
 }
 
-function createChainingFormChecks() {
-    let container = document.getElementById("formsContainer")
+let players
+let pool
+let chainChecks
+let syncURLResultElement
+let seed
 
-    for (let i= 0; i < forms.length; i++) {
-        const e = forms[i]
-        
-        let s = `
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="chainform" id="chainform${i}" value="${i}" checked>
-            <label class="form-check-label text-light" for="chainform${i}">${e.name}</label>
-        </div>
-        `
+function randomizeAndGenerateSyncURL() {
+    seed = Math.random().toString().substr(2, 8);
+    random = new RNG(seed)
 
-        container.innerHTML += s
+    let poolString = ""
 
-        preloadImage("imgs/" + e.img)
+    for (let num = 0; num < Math.floor(chainChecks.length/33) + 1; num++) {
+        let poolNum = 0
+        const start = num*32
+
+        for (let shift = 0; shift < Math.min(chainChecks.length - start, 32); shift++) {
+            poolNum += Number(chainChecks[start + shift].checked) << shift
+        }
+
+        poolString += ";" + poolNum
     }
+
+    syncURLResultElement.value = `${window.location.href.split("?")[0]}?sync=${players}${poolString};${seed}`
+}
+
+function readSyncURL() {
+    let usp = new URLSearchParams(window.location.search)
+    let param = usp.get("sync")
+
+    if (param === null) {
+        return false
+    }
+
+    let parts = param.split(";")
+
+    if (parts.length < 3) {
+        return false
+    }
+
+    pool = []
+
+    for (let i = 0; i < parts.length; i++) {
+        const e = parts[i]
+
+        // Read player number
+        if (i == 0) {
+            document.getElementById(e + "p").checked = true
+            players = Number(e)
+            continue
+        }
+
+        // Read seed
+        if (i == parts.length - 1) {
+            seed = Number(e)
+            continue
+        }
+
+        // Read Chaining Form checkboxes
+        const num = i-1
+        const poolNum = Number(e)
+
+        for (let shift = 0; shift < Math.min(chainChecks.length - num*32, 32); shift++) {
+            const index = num*32 + shift
+            const test = poolNum & (1 << shift)
+
+            if (test > 0) {
+                pool.push(index)
+                chainChecks[index].checked = true
+            } else {
+                chainChecks[index].checked = false
+            }
+        }
+    }
+
+    random = new RNG(seed)
+
+    return true
 }
 
 function selectNone() {
-    document.getElementsByName("chainform").forEach(element => {
+    chainChecks.forEach(element => {
         element.checked = false
     });
+
+    randomizeAndGenerateSyncURL()
 }
 
 function selectAll() {
-    document.getElementsByName("chainform").forEach(element => {
+    chainChecks.forEach(element => {
         element.checked = true
     })
+
+    randomizeAndGenerateSyncURL()
 }
 
 function selectNoCursed()  {
-    let checks = document.getElementsByName("chainform")
-
     for (i = 0; i < forms.length; i++) {
         const e = forms[i]
 
         if (e.cursed) {
-            checks[i].checked = false
+            chainChecks[i].checked = false
         } else {
-            checks[i].checked = true
+            chainChecks[i].checked = true
         }        
     }
+
+    randomizeAndGenerateSyncURL()
 }
 
 function selectOnlyCursed()  {
-    let checks = document.getElementsByName("chainform")
-
     for (i = 0; i < forms.length; i++) {
         const e = forms[i]
 
         if (e.cursed) {
-            checks[i].checked = true
+            chainChecks[i].checked = true
         } else {
-            checks[i].checked = false
+            chainChecks[i].checked = false
         }        
     }
+
+    randomizeAndGenerateSyncURL()
 }
 
 function showCard() {
-    let players
-    let playerForms = document.getElementsByName("player")
-    let chainForms = document.getElementsByName("chainform")
     let placeholder = document.getElementById("results")
-    let pool = []
-
     placeholder.innerHTML = ""
-
-    for (let i = 0; i < playerForms.length; i++) {
-        let e = playerForms[i]
-
-        if (e.checked) {
-            players = e.value
-            break
-        }
-    }
-
-    for (let i = 0; i < chainForms.length; i++) {
-        let e = chainForms[i]
-
-        if (e.checked) {
-            pool.push(i)
-        }
-    }
 
     if (pool.length == 0) {
         alert("Please select some chaining forms first.")
@@ -204,7 +249,7 @@ function showCard() {
     }
 
     for (let i = 0; i < players; i++) {
-        let pickIndex = Math.floor(Math.random() * pool.length)
+        let pickIndex = Math.floor(random.random(0, pool.length))
         let pick = forms[pool[pickIndex]]
 
         let s = `
@@ -226,5 +271,47 @@ function showCard() {
 }
 
 window.onload = function() {
-    createChainingFormChecks()
+    let container = document.getElementById("formsContainer")
+
+    for (let i= 0; i < forms.length; i++) {
+        const e = forms[i]
+        
+        let s = `
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="chainform" id="chainform${i}" value="${i}" onchange="regeneratePool();generateSyncURL()" checked>
+            <label class="form-check-label text-light" for="chainform${i}">${e.name}</label>
+        </div>
+        `
+
+        container.innerHTML += s
+
+        preloadImage("imgs/" + e.img)
+    }
+    
+    document.getElementsByName("player").forEach(element => {
+        if (element.checked) {
+            players = Number(element.value)
+            return
+        }
+    });
+
+    chainChecks = Array.from(document.getElementsByName("chainform"))
+    syncURLResultElement = document.getElementById("syncURLResults")
+
+    // Read Sync URL
+    let success = readSyncURL()
+
+    if (!success) {
+        pool = []
+
+        for (let i = 0; i < chainChecks.length; i++) {
+            if (chainChecks[i].checked) {
+                pool.push(i)
+            }
+        }
+
+        randomizeAndGenerateSyncURL()
+    }
+
+    
 }
