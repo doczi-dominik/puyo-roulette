@@ -1,4 +1,4 @@
-# [Puyo Puyo Chaining Form Roulette](doczi-dominik.github.io/puyo-roulette)
+# [Puyo Puyo Chaining Form Roulette](https://doczi-dominik.github.io/puyo-roulette)
 
 A straight-forward *(but specialized)* tool to make Puyo practice/matches more interesting. :)
 
