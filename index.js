@@ -69,6 +69,42 @@ const forms = [
         "img": "frogstacking.png",
         "cursed": true
     },
+    {
+        "name": "Yayoi",
+        "img": "yayoi.png",
+        "cursed": false
+    },
+    {
+        "name": "Flat Stacking",
+        "img": "flatstacking.png",
+        "cursed": false
+    },
+    {
+        "name": "Sullen GTR",
+        "img": "sullengtr.png",
+        "cursed": false
+    },
+    {
+        "name": "LLR",
+        "img": "llr.png",
+        "cursed": false
+    },
+    {
+        "name": "GTGTR",
+        "img": "gtgtr.png",
+        "cursed": true
+    },
+    {
+        "name": "Persian Style",
+        "img": "persianstyle.png",
+        "cursed": true
+    },
+    {
+        "name": "Kuma Stacking",
+        "img": "kumastacking.png",
+        "cursed": false
+    }
+    
 ]
 
 const preloadedImages = []
