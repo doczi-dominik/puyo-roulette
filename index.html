@@ -34,15 +34,17 @@
             <button class="btn btn-primary" type="button" onclick="showCard()">Ready Go Go!</button>
         </div>
 
+        <br />
+
         <div class="container-fluid ">
-            <h4 class="d-inline-block text-light p-2">Sync URL</h4>
+            <h4 class="d-inline text-light p-2">Sync URL</h4>
             <p id="syncMessage" class="d-inline-block text-muted p-2"></p>
             
             <input class="form-control bg-dark text-light" type="text" id="syncURLResults" readonly></input>
 
             <br />
 
-            <h4 class="text-light p-2">Players</h4>
+            <h4 class="d-inline text-light p-2">Players</h4>
             
             <form class="p-2">
                 <div class="form-check form-check-inline">
@@ -66,13 +68,14 @@
 
             <br />
 
-            <h4 class="d-inline-block text-light p-2">Chaining Forms</h4>
-            <form class="d-inline-block">
+            <h4 class="d-inline text-light p-2">Chaining Forms</h4>
+            <form class="d-inline-block p-2">
                 <button type="button" class="btn btn-outline-light" onclick="selectNone()">None</button>
                 <button type="button" class="btn btn-outline-light" onclick="selectAll()">All</button>
                 <button type="button" class="btn btn-outline-light" onclick="selectNoCursed()">No Cursed</button>
                 <button type="button" class="btn btn-outline-light" onclick="selectOnlyCursed()">Only Cursed</button>
             </form>
+
             <div class="container-fluid" id="formsContainer">
             </div>
         </div>
