@@ -9,6 +9,7 @@ let players
 let pool
 let chainChecks
 let syncURLResultElement
+let syncMessageElement
 let seed
 
 function randomizeAndGenerateSyncURL() {
@@ -83,6 +84,8 @@ function readSyncURL() {
     }
 
     random = new RNG(seed)
+
+    syncMessageElement.innerHTML = "Great, you're using a Sync URL! Make sure all players know which player is which, and don't forget to press the button before a round begins!"
 
     return true
 }
@@ -189,6 +192,7 @@ window.onload = function() {
 
     chainChecks = Array.from(document.getElementsByName("chainform"))
     syncURLResultElement = document.getElementById("syncURLResults")
+    syncMessageElement = document.getElementById("syncMessage")
 
     // Read Sync URL
     let success = readSyncURL()
@@ -203,6 +207,8 @@ window.onload = function() {
         }
 
         randomizeAndGenerateSyncURL()
+
+        syncMessageElement.innerHTML = "Share this link with other players to get the same results on button presses. Agree on player numbers beforehand and press the button before every round."
     }
 
     
