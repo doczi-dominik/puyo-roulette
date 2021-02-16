@@ -16,16 +16,18 @@ function randomizeAndGenerateSyncURL() {
     random = new RNG(seed)
 
     let poolString = ""
+    let tempNum = 0
 
-    for (let num = 0; num < Math.floor(chainChecks.length/33) + 1; num++) {
-        let poolNum = 0
-        const start = num*32
+    for (let i = 0; i < chainChecks.length; i++) {
+        tempNum += Number(chainChecks[i].checked) << i%32
 
-        for (let shift = 0; shift < Math.min(chainChecks.length - start, 32); shift++) {
-            poolNum += Number(chainChecks[start + shift].checked) << shift
+        const notFirstElem = i > 0
+        const on32BitBoundary = i % 31 == 0
+        const onListBoundary = i == chainChecks.length - 1
+
+        if (notFirstElem && (on32BitBoundary || onListBoundary)) {
+            poolString += ";" + tempNum
         }
-
-        poolString += ";" + poolNum
     }
 
     syncURLResultElement.value = `${window.location.href.split("?")[0]}?sync=${players}${poolString};${seed}`
