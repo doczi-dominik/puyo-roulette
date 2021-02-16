@@ -1,113 +1,3 @@
-// Chaining Forms
-const forms = [
-    {
-        "name": "3-1 Stairs",
-        "img": "31stairs.png",
-        "cursed": false
-    },
-    {
-        "name": "2-2 Stairs",
-        "img": "22stairs.png",
-        "cursed": false
-    },
-    {
-        "name": "1-3 Stairs",
-        "img": "13stairs.png",
-        "cursed": true
-    },
-    {
-        "name": "Stairs (any)",
-        "img": "anystairs.png",
-        "cursed": false
-    },
-    {
-        "name": "2-1-1 Sandwich",
-        "img": "211sandwich.png",
-        "cursed": false
-    },
-    {
-        "name": "1-2-1 Sandwich",
-        "img": "121sandwich.png",
-        "cursed": true
-    },
-    {
-        "name": "1-1-2 Sandwich",
-        "img": "112sandwich.png",
-        "cursed": false
-    },
-    {
-        "name": "3-0-1/1-0-3 Sandwich",
-        "img": "mixedsandwich.png",
-        "cursed": false,
-    },
-    {
-        "name": "Sandwich (any)",
-        "img": "mixedsandwich.png",
-        "cursed": false
-    },
-    {
-        "name": "GTR",
-        "img": "gtr.png",
-        "cursed": false
-    },
-    {
-        "name": "New GTR",
-        "img": "newgtr.png",
-        "cursed": false
-    },
-    {
-        "name": "L-Shape",
-        "img": "lshape.png",
-        "cursed": false
-    },
-    {
-        "name": "Harpy Stacking",
-        "img": "harpystacking.png",
-        "cursed": true
-    },
-    {
-        "name": "Frog Stacking",
-        "img": "frogstacking.png",
-        "cursed": true
-    },
-    {
-        "name": "Yayoi",
-        "img": "yayoi.png",
-        "cursed": false
-    },
-    {
-        "name": "Flat Stacking",
-        "img": "flatstacking.png",
-        "cursed": false
-    },
-    {
-        "name": "Sullen GTR",
-        "img": "sullengtr.png",
-        "cursed": false
-    },
-    {
-        "name": "LLR",
-        "img": "llr.png",
-        "cursed": false
-    },
-    {
-        "name": "GTGTR",
-        "img": "gtgtr.png",
-        "cursed": true
-    },
-    {
-        "name": "Persian Style",
-        "img": "persianstyle.png",
-        "cursed": true
-    },
-    {
-        "name": "Kuma Stacking",
-        "img": "kumastacking.png",
-        "cursed": false
-    }
-    
-]
-
 // Image Preloading
 const preloadedImages = []
 
@@ -119,6 +9,7 @@ let players
 let pool
 let chainChecks
 let syncURLResultElement
+let syncMessageElement
 let seed
 
 function randomizeAndGenerateSyncURL() {
@@ -126,16 +17,18 @@ function randomizeAndGenerateSyncURL() {
     random = new RNG(seed)
 
     let poolString = ""
+    let tempNum = 0
 
-    for (let num = 0; num < Math.floor(chainChecks.length/33) + 1; num++) {
-        let poolNum = 0
-        const start = num*32
+    for (let i = 0; i < chainChecks.length; i++) {
+        tempNum += Number(chainChecks[i].checked) << i%32
 
-        for (let shift = 0; shift < Math.min(chainChecks.length - start, 32); shift++) {
-            poolNum += Number(chainChecks[start + shift].checked) << shift
+        const notFirstElem = i > 0
+        const on32BitBoundary = i % 31 == 0
+        const onListBoundary = i == chainChecks.length - 1
+
+        if (notFirstElem && (on32BitBoundary || onListBoundary)) {
+            poolString += ";" + tempNum
         }
-
-        poolString += ";" + poolNum
     }
 
     syncURLResultElement.value = `${window.location.href.split("?")[0]}?sync=${players}${poolString};${seed}`
@@ -191,6 +84,8 @@ function readSyncURL() {
     }
 
     random = new RNG(seed)
+
+    syncMessageElement.innerHTML = "Great, you're using a Sync URL! Make sure all players know which player is which, and don't forget to press the button before a round begins!"
 
     return true
 }
@@ -297,6 +192,7 @@ window.onload = function() {
 
     chainChecks = Array.from(document.getElementsByName("chainform"))
     syncURLResultElement = document.getElementById("syncURLResults")
+    syncMessageElement = document.getElementById("syncMessage")
 
     // Read Sync URL
     let success = readSyncURL()
@@ -311,6 +207,8 @@ window.onload = function() {
         }
 
         randomizeAndGenerateSyncURL()
+
+        syncMessageElement.innerHTML = "Share this link with other players to get the same results on button presses. Agree on player numbers beforehand and press the button before every round."
     }
 
     
