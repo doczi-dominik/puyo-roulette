@@ -95,6 +95,7 @@ function selectNone() {
         element.checked = false
     });
 
+    regeneratePool()
     randomizeAndGenerateSyncURL()
 }
 
@@ -103,6 +104,7 @@ function selectAll() {
         element.checked = true
     })
 
+    regeneratePool()
     randomizeAndGenerateSyncURL()
 }
 
@@ -117,6 +119,7 @@ function selectNoCursed()  {
         }        
     }
 
+    regeneratePool()
     randomizeAndGenerateSyncURL()
 }
 
@@ -131,6 +134,7 @@ function selectOnlyCursed()  {
         }        
     }
 
+    regeneratePool()
     randomizeAndGenerateSyncURL()
 }
 
@@ -162,6 +166,16 @@ function showCard() {
         `
 
         placeholder.innerHTML += s
+    }
+}
+
+function regeneratePool() {
+    pool = []
+    
+    for (let i = 0; i < chainChecks.length; i++) {
+        if (chainChecks[i].checked) {
+            pool.push(i)
+        }
     }
 }
 
@@ -200,11 +214,7 @@ window.onload = function() {
     if (!success) {
         pool = []
 
-        for (let i = 0; i < chainChecks.length; i++) {
-            if (chainChecks[i].checked) {
-                pool.push(i)
-            }
-        }
+        regeneratePool()
 
         randomizeAndGenerateSyncURL()
 
